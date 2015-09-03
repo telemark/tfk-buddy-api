@@ -1,23 +1,15 @@
 'use strict';
 
-var sql = require('mssql');
-var config = require('./config');
+var routes = require('./routes');
 
-var connection = new sql.Connection(config, function(err) {
-    // ... error checks
+exports.register = function(server, options, next) {
 
-    // Query
-    var query = 'SELECT TOP 1000 [ID] ,[BadUsernamePart][ReplaceWith]' +
-      'FROM [dbMetakatalog].[dbo].[tblBadUsernames]';
+    server.route(routes);
 
-    var request = new sql.Request(connection); 
-    request.query(query, function(err, recordset) {
-        // ... error checks
-        console.dir(recordset);
-    });
-});
+    next();
 
-connection.on('error', function(err) {
-    // ... error handler
-    console.log('error');
-});
+};
+
+exports.register.attributes = {
+    pkg: require('./package.json')
+};
