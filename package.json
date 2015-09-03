@@ -1,0 +1,31 @@
+{
+  "name": "buddy.t-fk.no",
+  "description": "Buddy API for Telemark fylkeskommune",
+  "version": "1.0.0",
+  "private": true,
+  "author": {
+    "name": "Jonas Enge",
+    "email": "jonas.enge@t-fk.no",
+    "url": "https://github.com/maccyber"
+  },
+  "contributors": [
+    {
+      "name": "Jonas Enge",
+      "email": "jonas.enge@gmail.com",
+      "url": "https://github.com/maccyber"
+    }
+  ],
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha --reporter spec test/*.js",
+    "init-dev": "node 'init/index.js'"
+  },
+  "dependencies": {
+    "mssql": "^2.2.0"
+  },
+  "devDependencies": {
+    "jscs": "^1.12.0",
+    "mocha": "^2.2.1",
+    "supertest": "^0.15.0"
+  }
+}
