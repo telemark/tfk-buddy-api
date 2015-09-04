@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 var config = {
   user: 'username', // Database username
@@ -11,4 +11,4 @@ var config = {
   }
 }
 
-module.exports = config;
+module.exports = config

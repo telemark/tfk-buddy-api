@@ -6,8 +6,12 @@ var config = require('./config')
 var buddyService = require('./index')
 
 server.connection({
-  port:config.SERVER_PORT,
-  routes:{cors:{credentials:true}}
+  port: config.SERVER_PORT,
+  routes: {
+    cors: {
+      credentials: true
+    }
+  }
 })
 
 server.register([
@@ -20,7 +24,6 @@ server.register([
     console.error('Failed to load a plugin:', err)
   }
 })
-
 
 function startServer () {
   server.start(function () {
@@ -36,4 +39,4 @@ function stopServer () {
 
 module.exports.start = startServer
 
-module.exports.stop =  stopServer
+module.exports.stop = stopServer
