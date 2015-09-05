@@ -18,10 +18,13 @@
   "scripts": {
     "start": "node standalone.js",
     "test": "standard && tap --reporter=spec test/*.js",
-    "setup": "node setup.js"
+    "setup": "npm install && node setup.js"
   },
   "dependencies": {
     "hapi": "^9.0.4",
+    "ldapauth-fork": "^2.3.1",
+    "ldapjs": "git+https://github.com/mcavage/node-ldapjs",
+    "log4js": "^0.6.26",
     "mssql": "^2.2.0"
   },
   "devDependencies": {
