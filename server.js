@@ -1,6 +1,9 @@
 'use strict'
 
 var Hapi = require('hapi')
+var Basic = require('hapi-auth-basic')
+var validateUser = require('./lib/validateUser')
+
 var server = new Hapi.Server()
 var config = require('./config')
 var buddyService = require('./index')
@@ -12,6 +15,13 @@ server.connection({
       credentials: true
     }
   }
+})
+
+server.register(Basic, function (err) {
+  if (err) {
+    console.error(err)
+  }
+  server.auth.strategy('simple', 'basic', { validateFunc: validateUser })
 })
 
 server.register([

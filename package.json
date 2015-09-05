@@ -21,13 +21,13 @@
     "setup": "npm install && node setup.js"
   },
   "dependencies": {
-    "hapi": "^9.0.4",
+    "hapi": "^9.2.0",
     "ldapauth-fork": "^2.3.1",
     "ldapjs": "git+https://github.com/mcavage/node-ldapjs",
-    "log4js": "^0.6.26",
     "mssql": "^2.2.0"
   },
   "devDependencies": {
+    "log4js": "^0.6.26",
     "standard": "^5.1.1",
     "tap": "^1.4.0"
   }
