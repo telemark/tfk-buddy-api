@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "hapi": "^9.2.0",
-    "ldapauth-fork": "^2.3.1",
     "ldapjs": "git+https://github.com/mcavage/node-ldapjs",
+    "ldapauth-fork": "^2.3.1",
     "mssql": "^2.2.0"
   },
   "devDependencies": {
