@@ -12,11 +12,13 @@ var config = {
   },
   ldap: {
     url: 'ldap://ldap.forumsys.com:389',
-    bindDn: 'cn=read-only-admin,dc=example,dc=com',
+    bindDn: 'cn=read-only-admin,dc=example,dc=com', // distinguishedName of user who have bind access to ldap
     bindCredentials: 'password',
     searchBase: 'dc=example,dc=com',
+    
     // For OpenLDAP:
     searchFilter: '(uid={{username}})'
+    
     // For Active Directory:
     // searchFilter: '(sAMAccountName={{username}})'
   },
