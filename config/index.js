@@ -15,7 +15,10 @@ var config = {
     bindDn: 'cn=read-only-admin,dc=example,dc=com',
     bindCredentials: 'password',
     searchBase: 'dc=example,dc=com',
+    // For OpenLDAP:
     searchFilter: '(uid={{username}})'
+    // For Active Directory:
+    // searchFilter: '(sAMAccountName={{username}})'
   },
   SERVER_PORT: 3000
 }
