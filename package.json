@@ -21,11 +21,15 @@
     "setup": "npm install && node setup.js"
   },
   "dependencies": {
-    "hapi": "^9.2.0",
+    "hapi": "^11.1.2",
+    "lout": "^7.2.0",
+    "joi": "^7.0.1",
+    "inert": "^3.2.0",
+    "vision": "^4.0.1",
     "ldapjs": "git+https://github.com/mcavage/node-ldapjs",
     "ldapauth-fork": "^2.3.1",
     "mssql": "^2.2.0",
-    "hapi-auth-basic": "^3.0.0"
+    "hapi-auth-basic": "3.0.0"
   },
   "devDependencies": {
     "log4js": "^0.6.26",

@@ -2,7 +2,7 @@
 
 var LdapAuth = require('ldapauth-fork')
 var config = require('./config')
-var username = 'riemann'
+var username = 'adusername'
 var password = 'password'
 var auth = new LdapAuth(config.ldap)
 

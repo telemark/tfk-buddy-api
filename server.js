@@ -24,7 +24,10 @@ server.register(Basic, function (err) {
   server.auth.strategy('simple', 'basic', { validateFunc: validateUser })
 })
 
-server.register([
+server.register([require('vision'), require('inert'),
+  {
+    register: require('lout')
+  },
   {
     register: buddyService,
     options: {}
