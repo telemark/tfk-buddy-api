@@ -1,24 +1,29 @@
 'use strict'
 
-var message = {
-  message: "Hello, I'm your API"
-}
+/*!
+ *
+ * Public
+ *
+ */
+
 
 function getPublicResponse (request, reply) {
+  var message = {
+    message: "Hello, I'm your API"
+  }
   reply(message)
 }
 
-function name (request, reply) {
-  reply({name: request.auth.credentials.cn})
-}
+/*!
+ *
+ * User
+ *
+ */
 
-function mail (request, reply) {
-  reply({mail: request.auth.credentials.mail})
-}
+function getUser (request, reply) {
+  var username = request.params.username
+  var query = "SELECT * FROM dbMetakatalog.dbo.tblObjects WHERE ID = '" + username + "'"
 
-function user (request, reply) {
-  var loggedInUser = request.auth.credentials.sAMAccountName
-  var query = "SELECT * FROM dbMetakatalog.dbo.tblObjects WHERE ID = '" + loggedInUser + "'"
   buddyQuery(query, function (err, data) {
     if (err) {
       reply(err)
@@ -28,16 +33,50 @@ function user (request, reply) {
   })
 }
 
-function membershipsOwners (request, reply) {
-  var loggedInUser = 'elimariannh'
+function getUserName (request, reply) {
+  var username = request.params.username
+  var query = 'SELECT Firstname as firstName, Midlename as middleName, Lastname as lastName ' +
+    'FROM dbMetakatalog.dbo.tblObjects ' +
+    "WHERE ID = '" +
+    username +
+    "'"
+  buddyQuery(query, function (err, data) {
+    if (err) {
+      console.log(query)
+      reply(err)
+    } else {
+      reply(data)
+    }
+  })
+}
+
+function getUserMail (request, reply) {
+  var username = request.params.username
+  var query = 'SELECT Mail as email ' +
+    'FROM dbMetakatalog.dbo.tblObjects ' +
+    "WHERE ID = '" +
+    username +
+    "'"
+  buddyQuery(query, function (err, data) {
+    if (err) {
+      console.log(query)
+      reply(err)
+    } else {
+      reply(data)
+    }
+  })
+}
+
+function getUserGroupsOwner (request, reply) {
+  var username = request.params.username
   var query = 'SELECT ' +
   'm.AttributeName as Role,m.ID as GroupID,m.StringValue as Username,o.ObjectType,o.GroupType,o.Description,n.StringValue as Unit ' +
   'FROM dbMetakatalog.dbo.tblMultiValue m, dbMetakatalog.dbo.tblObjects o ' +
   'inner join dbMetakatalog.dbo.tblMultiValue n on n.ID = o.ID ' +
   "WHERE n.AttributeName = 'Enhet' AND o.ID = m.ID AND m.StringValue like '" +
-  loggedInUser +
+  username +
   "' and m.AttributeName = 'Owner' AND m.ID NOT LIKE '%" +
-  loggedInUser +
+  username +
   "'"
 
   buddyQuery(query, function (err, data) {
@@ -50,14 +89,41 @@ function membershipsOwners (request, reply) {
   })
 }
 
-function memberships (request, reply) {
-  var loggedInUser = 'elimariannh'
+function getUserGroups (request, reply) {
+//  var loggedInUser = 'elimariannh'
+  var username = request.params.username
   var query = 'SELECT ' +
   'o.SSN, m.ID, m.AttributeName, m.StringValue from dbMetakatalog.dbo.tblObjects o, dbMetakatalog.dbo.tblMultiValue m WHERE ' +
-  "o.ID = m.StringValue AND m.AttributeName in ('Owner', 'Member') AND o.Mail LIKE '%t-fk.no' AND m.StringValue = '" + loggedInUser + "'"
+  "o.ID = m.StringValue AND m.AttributeName in ('Owner', 'Member') AND o.Mail LIKE '%t-fk.no' " +
+//  "AND o.GroupType != 'Kontakgruppe' " +
+//  "AND o.GroupType != 'Managergruppe' " +
+  "AND m.StringValue = '" +
+  username +
+  "'"
+
   buddyQuery(query, function (err, data) {
     if (err) {
       console.log(query)
+      reply(err)
+    } else {
+      console.log(query)
+      reply(data)
+    }
+  })
+}
+
+/*!
+ *
+ * Units
+ *
+ */
+
+function getUnits (request, reply) {
+  var query = 'SELECT ' +
+    'o.id as name,m.id,m.org,m.beskrivelse,o.ObjectType,o.DisplayName,o.Status,o.PostalAddress,o.Street,o.PostalCode,o.City,o.OrganizationNumber ' +
+    "FROM dbMetakatalog.dbo.tblKonverterIDer m, dbMetakatalog.dbo.tblObjects o where m.konverterTil = o.ID AND o.ObjectType = 'Enhet' AND m.org = 'TFK'"
+  buddyQuery(query, function (err, data) {
+    if (err) {
       reply(err)
     } else {
       reply(data)
@@ -65,10 +131,16 @@ function memberships (request, reply) {
   })
 }
 
-function studentsInClasses (request, reply) {
+function getUnit (request, reply) {
+  var unitId = request.params.unitId
+  var query = 'SELECT ' +
+    'o.id as name,m.id,m.org,m.beskrivelse,o.ObjectType,o.DisplayName,o.Status,o.PostalAddress,o.Street,o.PostalCode,o.City,o.OrganizationNumber ' +
+    "FROM dbMetakatalog.dbo.tblKonverterIDer m, dbMetakatalog.dbo.tblObjects o where m.konverterTil = o.ID AND o.ObjectType = 'Enhet' AND m.org = 'TFK' and m.id = '" +
+    unitId +
+    "'"
+
   buddyQuery(query, function (err, data) {
     if (err) {
-      console.log(query)
       reply(err)
     } else {
       reply(data)
@@ -76,7 +148,78 @@ function studentsInClasses (request, reply) {
   })
 }
 
-function organizations (request, reply) {
+function getUnitGroups (request, reply) {
+  var unitId = request.params.unitId
+  var query = 'SELECT mv.ID as groupName, mv.AttributeName as groupType, mv.StringValue as unitName, ki.id as unitId ' +
+   'FROM dbMetakatalog.dbo.tblMultiValue mv, dbMetakatalog.dbo.tblKonverterIDer ki ' +
+   'WHERE mv.StringValue = ki.konverterTil ' +
+   "AND ki.id = '" +
+   unitId +
+   "' " +
+   "AND mv.ID LIKE mv.StringValue  + '%'" +
+   'ORDER BY mv.ID ASC'
+
+  buddyQuery(query, function (err, data) {
+    if (err) {
+      reply(err)
+    } else {
+      reply(data)
+    }
+  })
+}
+
+/*!
+ *
+ * Groups
+ *
+ */
+
+function getGroup (request, reply) {
+  var groupId = request.params.groupId
+  var query = 'SELECT mv.ID, mv.AttributeName as groupType, mv.StringValue as unitId, ' +
+    'o.ObjectType as objectType, o.GroupType as groupTypeDesc, o.Description as description ' +
+    'FROM dbMetakatalog.dbo.tblMultiValue mv, dbMetakatalog.dbo.tblObjects o ' +
+    'WHERE mv.ID = o.ID ' +
+    "AND AttributeName = 'Enhet' " +
+    "AND mv.ID = '" +
+    groupId +
+    "'"
+  buddyQuery(query, function (err, data) {
+    if (err) {
+      reply(err)
+    } else {
+      reply(data)
+    }
+  })
+}
+
+function getGroupMembers (request, reply) {
+  var groupId = request.params.groupId
+  var query = 'SELECT mv.ID as groupId, mv.AttributeName as memberType, mv.StringValue as username, ' +
+    'o.Firstname as firstName, o.Midlename as middleName, o.Lastname as lastName, o.SSN as ssn ' +
+    'FROM dbMetakatalog.dbo.tblMultiValue mv, dbMetakatalog.dbo.tblObjects o ' +
+    'WHERE mv.StringValue = o.ID ' +
+    "AND mv.AttributeName = 'Member'" +
+    "AND mv.ID = '" +
+    groupId +
+    "'"
+  buddyQuery(query, function (err, data) {
+    if (err) {
+      console.log(err)
+      reply(err)
+    } else {
+      reply(data)
+    }
+  })
+}
+
+/*!
+ *
+ * Organizations
+ *
+ */
+
+function getOrganizations (request, reply) {
   var query = 'SELECT * ' +
     "FROM dbMetakatalog.dbo.tblObjects where ObjectType = 'Organisasjon'"
 
@@ -84,19 +227,6 @@ function organizations (request, reply) {
     query = 'SELECT * ' +
       "FROM dbMetakatalog.dbo.tblObjects WHERE ObjectType = 'Organisasjon' AND id = '" + Number(request.params.id) + "'"
   }
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      reply(err)
-    } else {
-      reply(data)
-    }
-  })
-}
-
-function units (request, reply) {
-  var query = 'SELECT ' +
-    'o.id as name,m.id,m.org,m.beskrivelse,o.ObjectType,o.DisplayName,o.Status,o.PostalAddress,o.Street,o.PostalCode,o.City,o.OrganizationNumber ' +
-    "FROM dbMetakatalog.dbo.tblKonverterIDer m, dbMetakatalog.dbo.tblObjects o where m.konverterTil = o.ID AND o.ObjectType = 'Enhet' AND m.org = 'TFK'"
   buddyQuery(query, function (err, data) {
     if (err) {
       reply(err)
@@ -140,19 +270,27 @@ function buddyQuery (query, callback) {
   })
 }
 
-module.exports.user = user
+module.exports.getUser = getUser
 
-module.exports.memberships = memberships
+module.exports.getUserGroups = getUserGroups
 
-module.exports.membershipsOwners = membershipsOwners
+module.exports.getUserGroupsOwner = getUserGroupsOwner
 
-module.exports.name = name
+module.exports.getUserName = getUserName
 
-module.exports.mail = mail
+module.exports.getUserMail = getUserMail
 
-module.exports.organizations = organizations
+module.exports.getOrganizations = getOrganizations
 
-module.exports.units = units
+module.exports.getUnits = getUnits
+
+module.exports.getUnit = getUnit
+
+module.exports.getUnitGroups = getUnitGroups
+
+module.exports.getGroup = getGroup
+
+module.exports.getGroupMembers = getGroupMembers
 
 module.exports.schools = schools
 

@@ -14,47 +14,47 @@ var routes = [
   },
   {
     method: 'GET',
-    path: '/users/name',
-    handler: handlers.name,
+    path: '/users/{username}/name',
+    handler: handlers.getUserName,
     config: {
       auth: 'simple',
       cors: false,
-      description: 'Nothing to see here',
+      description: 'Return users name',
       validate: {
-        query: {
-          param1: Joi.string().required()
+        params: {
+          username: Joi.string().min(3).max(10).required()
         }
       }
     }
   },
   {
     method: 'GET',
-    path: '/users/mail',
-    handler: handlers.mail,
+    path: '/users/{username}/mail',
+    handler: handlers.getUserMail,
     config: {
       auth: 'simple'
     }
   },
   {
     method: 'GET',
-    path: '/users',
-    handler: handlers.user,
+    path: '/users/{username}',
+    handler: handlers.getUser,
     config: {
       auth: 'simple'
     }
   },
   {
     method: 'GET',
-    path: '/users/memberships',
-    handler: handlers.memberships,
+    path: '/users/{username}/groups',
+    handler: handlers.getUserGroups,
     config: {
       auth: 'simple'
     }
   },
   {
     method: 'GET',
-    path: '/users/memberships/owner',
-    handler: handlers.membershipsOwners,
+    path: '/users/{username}/groups/owner',
+    handler: handlers.getUserGroupsOwner,
     config: {
       auth: 'simple'
     }
@@ -62,15 +62,15 @@ var routes = [
   {
     method: 'GET',
     path: '/organizations',
-    handler: handlers.organizations,
+    handler: handlers.getOrganizations,
     config: {
       auth: 'simple'
     }
   },
   {
     method: 'GET',
-    path: '/organizations/{id}',
-    handler: handlers.organizations,
+    path: '/organizations/{orgId}',
+    handler: handlers.getOrganizations,
     config: {
       auth: 'simple'
     }
@@ -78,49 +78,66 @@ var routes = [
   {
     method: 'GET',
     path: '/units',
-    handler: handlers.units,
+    handler: handlers.getUnits,
     config: {
-      auth: 'simple'
+      auth: 'simple',
+      description: 'Return all units'
     }
   },
   {
     method: 'GET',
-    path: '/units/{id}',
-    handler: handlers.units,
+    path: '/units/{unitId}',
+    handler: handlers.getUnit,
     config: {
-      auth: 'simple'
+      auth: 'simple',
+      description: 'Return spesific unit',
+      validate: {
+        params: {
+          unitId: Joi.number().required()
+        }
+      }
     }
   },
   {
     method: 'GET',
-    path: '/units/{id}/classes',
-    handler: handlers.units,
+    path: '/units/{unitId}/groups',
+    handler: handlers.getUnitGroups,
     config: {
-      auth: 'simple'
+      auth: 'simple',
+      description: 'Return unit groups',
+      validate: {
+        params: {
+          unitId: Joi.number().required()
+        }
+      }
     }
   },
   {
     method: 'GET',
-    path: '/classes/{id}',
-    handler: handlers.units,
+    path: '/groups/{groupId}',
+    handler: handlers.getGroup,
     config: {
-      auth: 'simple'
+      auth: 'simple',
+      description: 'Return spesific group',
+      validate: {
+        params: {
+          groupId: Joi.string().min(3).max(50).required()
+        }
+      }
     }
   },
   {
     method: 'GET',
-    path: '/classes/{id}/students',
-    handler: handlers.units,
+    path: '/groups/{groupId}/members',
+    handler: handlers.getGroupMembers,
     config: {
-      auth: 'simple'
-    }
-  },
-  {
-    method: 'GET',
-    path: '/students/{id}',
-    handler: handlers.units,
-    config: {
-      auth: 'simple'
+      auth: 'simple',
+      description: 'Return group members',
+      validate: {
+        params: {
+          groupId: Joi.string().min(3).max(50).required()
+        }
+      }
     }
   }
 ]
