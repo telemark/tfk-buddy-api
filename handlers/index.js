@@ -1,5 +1,7 @@
 'use strict'
 
+var buddyQuery = require('../lib/buddyQuery')
+
 /*!
  *
  * Public
@@ -248,24 +250,6 @@ function schools (request, reply) {
     } else {
       reply(data)
     }
-  })
-}
-
-function buddyQuery (query, callback) {
-  var sql = require('mssql')
-  var config = require('../config')
-  var connection = new sql.Connection(config.buddy, function (err) {
-    if (err) {
-      return callback(err)
-    }
-    var request = new sql.Request(connection)
-    request.query(query, function (err, recordset) {
-      if (err) {
-        return callback(err, null)
-      } else {
-        return callback(null, recordset)
-      }
-    })
   })
 }
 
