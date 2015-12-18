@@ -6,7 +6,6 @@
  *
  */
 
-
 function getPublicResponse (request, reply) {
   var message = {
     message: "Hello, I'm your API"

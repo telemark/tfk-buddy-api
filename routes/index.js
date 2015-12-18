@@ -9,7 +9,7 @@ var routes = [
     path: '/',
     handler: handlers.getPublicResponse,
     config: {
-      cors: false,
+      cors: false
     }
   },
   {
