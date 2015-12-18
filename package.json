@@ -2,6 +2,7 @@
   "name": "buddy.t-fk.no",
   "description": "Buddy API for Telemark fylkeskommune",
   "version": "1.0.0",
+  "license": "MIT",
   "private": true,
   "author": {
     "name": "Jonas Enge",
@@ -15,6 +16,9 @@
       "url": "https://github.com/zrrrzzt"
     }
   ],
+  "engines": {
+    "node": ">=4.1.0"
+  },
   "scripts": {
     "start": "node standalone.js",
     "test": "standard && tap --reporter=spec test/*.js",
