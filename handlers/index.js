@@ -102,14 +102,9 @@ function getUserGroups (request, reply) {
   username +
   "'"
 
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      console.log(query)
-      reply(err)
-    } else {
-      console.log(query)
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    console.log(query)
+    reply(error || data)
   })
 }
 
@@ -123,12 +118,8 @@ function getUnits (request, reply) {
   var query = 'SELECT ' +
     'o.id as name,m.id,m.org,m.beskrivelse,o.ObjectType,o.DisplayName,o.Status,o.PostalAddress,o.Street,o.PostalCode,o.City,o.OrganizationNumber ' +
     "FROM dbMetakatalog.dbo.tblKonverterIDer m, dbMetakatalog.dbo.tblObjects o where m.konverterTil = o.ID AND o.ObjectType = 'Enhet' AND m.org = 'TFK'"
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      reply(err)
-    } else {
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    reply(error || data)
   })
 }
 
@@ -140,12 +131,8 @@ function getUnit (request, reply) {
     unitId +
     "'"
 
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      reply(err)
-    } else {
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    reply(error || data)
   })
 }
 
@@ -160,12 +147,8 @@ function getUnitGroups (request, reply) {
    "AND mv.ID LIKE mv.StringValue  + '%'" +
    'ORDER BY mv.ID ASC'
 
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      reply(err)
-    } else {
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    reply(error || data)
   })
 }
 
@@ -185,12 +168,8 @@ function getGroup (request, reply) {
     "AND mv.ID = '" +
     groupId +
     "'"
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      reply(err)
-    } else {
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    reply(error || data)
   })
 }
 
@@ -204,13 +183,8 @@ function getGroupMembers (request, reply) {
     "AND mv.ID = '" +
     groupId +
     "'"
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      console.log(err)
-      reply(err)
-    } else {
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    reply(error || data)
   })
 }
 
@@ -228,12 +202,8 @@ function getOrganizations (request, reply) {
     query = 'SELECT * ' +
       "FROM dbMetakatalog.dbo.tblObjects WHERE ObjectType = 'Organisasjon' AND id = '" + Number(request.params.id) + "'"
   }
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      reply(err)
-    } else {
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    reply(error || data)
   })
 }
 
@@ -244,12 +214,8 @@ function schools (request, reply) {
    // Filter
    "AND m.org = 'TFK' AND o.OrganizationNumber LIKE 'NO974568%'"
 
-  buddyQuery(query, function (err, data) {
-    if (err) {
-      reply(err)
-    } else {
-      reply(data)
-    }
+  buddyQuery(query, function (error, data) {
+    reply(error || data)
   })
 }
 
