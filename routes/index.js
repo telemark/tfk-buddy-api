@@ -9,6 +9,7 @@ var routes = [
     path: '/',
     handler: handlers.getPublicResponse,
     config: {
+      auth: false,
       cors: false
     }
   },
@@ -17,7 +18,6 @@ var routes = [
     path: '/users/{username}/name',
     handler: handlers.getUserName,
     config: {
-      auth: 'simple',
       cors: false,
       description: 'Return users name',
       validate: {
@@ -32,7 +32,7 @@ var routes = [
     path: '/users/{username}/mail',
     handler: handlers.getUserMail,
     config: {
-      auth: 'simple'
+      description: 'Show an users email'
     }
   },
   {
@@ -40,7 +40,7 @@ var routes = [
     path: '/users/{username}',
     handler: handlers.getUser,
     config: {
-      auth: 'simple'
+      description: 'simple'
     }
   },
   {
@@ -48,7 +48,7 @@ var routes = [
     path: '/users/{username}/groups',
     handler: handlers.getUserGroups,
     config: {
-      auth: 'simple'
+      description: 'simple'
     }
   },
   {
@@ -56,7 +56,7 @@ var routes = [
     path: '/users/{username}/groups/owner',
     handler: handlers.getUserGroupsOwner,
     config: {
-      auth: 'simple'
+      description: 'simple'
     }
   },
   {
@@ -64,7 +64,7 @@ var routes = [
     path: '/organizations',
     handler: handlers.getOrganizations,
     config: {
-      auth: 'simple'
+      description: 'simple'
     }
   },
   {
@@ -72,7 +72,7 @@ var routes = [
     path: '/organizations/{orgId}',
     handler: handlers.getOrganizations,
     config: {
-      auth: 'simple'
+      description: 'simple'
     }
   },
   {
@@ -80,7 +80,6 @@ var routes = [
     path: '/units',
     handler: handlers.getUnits,
     config: {
-      auth: 'simple',
       description: 'Return all units'
     }
   },
@@ -89,7 +88,6 @@ var routes = [
     path: '/units/{unitId}',
     handler: handlers.getUnit,
     config: {
-      auth: 'simple',
       description: 'Return spesific unit',
       validate: {
         params: {
@@ -103,7 +101,6 @@ var routes = [
     path: '/units/{unitId}/groups',
     handler: handlers.getUnitGroups,
     config: {
-      auth: 'simple',
       description: 'Return unit groups',
       validate: {
         params: {
@@ -117,7 +114,6 @@ var routes = [
     path: '/groups/{groupId}',
     handler: handlers.getGroup,
     config: {
-      auth: 'simple',
       description: 'Return spesific group',
       validate: {
         params: {
@@ -131,7 +127,6 @@ var routes = [
     path: '/groups/{groupId}/members',
     handler: handlers.getGroupMembers,
     config: {
-      auth: 'simple',
       description: 'Return group members',
       validate: {
         params: {

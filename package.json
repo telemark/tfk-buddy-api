@@ -1,5 +1,5 @@
 {
-  "name": "buddy.t-fk.no",
+  "name": "tfk-buddy-api",
   "description": "Buddy API for Telemark fylkeskommune",
   "version": "1.0.0",
   "license": "MIT",
@@ -24,20 +24,19 @@
     "test": "standard && tap --reporter=spec test/*.js",
     "setup": "npm install && node setup.js",
     "coverage": "tap test/*.js --coverage",
-    "coveralls": "tap --cov --coverage-report=lcov test/*.js && cat coverage/lcov.info | coveralls"
+    "coveralls": "tap --cov --coverage-report=lcov test/*.js && cat coverage/lcov.info | coveralls",
+    "generate": "node utils/generateTestToken.js"
   },
   "dependencies": {
     "hapi": "^11.1.2",
-    "hapi-auth-basic": "3.0.0",
     "hapi-auth-jwt2": "^5.2.1",
     "inert": "^3.2.0",
     "joi": "^7.0.1",
     "jsonwebtoken": "^5.4.1",
-    "ldapauth-fork": "^2.3.1",
-    "ldapjs": "git+https://github.com/mcavage/node-ldapjs",
     "lout": "^7.2.0",
     "mssql": "^2.2.0",
-    "vision": "^4.0.1"
+    "vision": "^4.0.1",
+    "yar": "^5.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.6",

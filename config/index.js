@@ -20,7 +20,9 @@ var config = {
     // For Active Directory:
     searchFilter: '(sAMAccountName={{username}})'
   },
-  SERVER_PORT: 3000
+  SERVER_PORT: process.env.SERVER_PORT || 3000,
+  JWT_SECRET: process.env.JWT_SECRET || 'NeverShareYourSecret',
+  YAR_SECRET: process.env.JWT_SECRET || 'NeverShareYourSecret'
 }
 
 module.exports = config
