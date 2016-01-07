@@ -18,7 +18,6 @@ var routes = [
     path: '/users/{username}/name',
     handler: handlers.getUserName,
     config: {
-      cors: false,
       description: 'Return users name',
       validate: {
         params: {

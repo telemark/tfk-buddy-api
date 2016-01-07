@@ -1,5 +1,11 @@
 'use strict'
 
+var fs = require('fs')
+
+require.extensions['.sql'] = function (module, filename) {
+  module.exports = fs.readFileSync(filename, 'utf8')
+}
+
 var buddyQuery = require('../lib/buddyQuery')
 
 /*!
@@ -23,7 +29,8 @@ function getPublicResponse (request, reply) {
 
 function getUser (request, reply) {
   var username = request.params.username
-  var query = "SELECT * FROM dbMetakatalog.dbo.tblObjects WHERE ID = '" + username + "'"
+  var query = require('../lib/sql/getUser.sql')
+  query = query.replace('@username', username)
 
   buddyQuery(query, function (err, data) {
     if (err) {
@@ -36,11 +43,9 @@ function getUser (request, reply) {
 
 function getUserName (request, reply) {
   var username = request.params.username
-  var query = 'SELECT Firstname as firstName, Midlename as middleName, Lastname as lastName ' +
-    'FROM dbMetakatalog.dbo.tblObjects ' +
-    "WHERE ID = '" +
-    username +
-    "'"
+  var query = require('../lib/sql/getUsername.sql')
+  query = query.replace('@username', username)
+
   buddyQuery(query, function (err, data) {
     if (err) {
       console.log(query)
@@ -53,11 +58,9 @@ function getUserName (request, reply) {
 
 function getUserMail (request, reply) {
   var username = request.params.username
-  var query = 'SELECT Mail as email ' +
-    'FROM dbMetakatalog.dbo.tblObjects ' +
-    "WHERE ID = '" +
-    username +
-    "'"
+  var query = require('../lib/sql/getUserMail.sql')
+  query = query.replace('@username', username)
+
   buddyQuery(query, function (err, data) {
     if (err) {
       console.log(query)
@@ -70,15 +73,8 @@ function getUserMail (request, reply) {
 
 function getUserGroupsOwner (request, reply) {
   var username = request.params.username
-  var query = 'SELECT ' +
-  'm.AttributeName as Role,m.ID as GroupID,m.StringValue as Username,o.ObjectType,o.GroupType,o.Description,n.StringValue as Unit ' +
-  'FROM dbMetakatalog.dbo.tblMultiValue m, dbMetakatalog.dbo.tblObjects o ' +
-  'inner join dbMetakatalog.dbo.tblMultiValue n on n.ID = o.ID ' +
-  "WHERE n.AttributeName = 'Enhet' AND o.ID = m.ID AND m.StringValue like '" +
-  username +
-  "' and m.AttributeName = 'Owner' AND m.ID NOT LIKE '%" +
-  username +
-  "'"
+  var query = require('../lib/sql/getUserGroupsOwner.sql')
+  query = query.replace('@username', username)
 
   buddyQuery(query, function (err, data) {
     if (err) {
@@ -91,16 +87,9 @@ function getUserGroupsOwner (request, reply) {
 }
 
 function getUserGroups (request, reply) {
-//  var loggedInUser = 'elimariannh'
   var username = request.params.username
-  var query = 'SELECT ' +
-  'o.SSN, m.ID, m.AttributeName, m.StringValue from dbMetakatalog.dbo.tblObjects o, dbMetakatalog.dbo.tblMultiValue m WHERE ' +
-  "o.ID = m.StringValue AND m.AttributeName in ('Owner', 'Member') AND o.Mail LIKE '%t-fk.no' " +
-//  "AND o.GroupType != 'Kontakgruppe' " +
-//  "AND o.GroupType != 'Managergruppe' " +
-  "AND m.StringValue = '" +
-  username +
-  "'"
+  var query = require('../lib/sql/getUserGroups.sql')
+  query = query.replace('@username', username)
 
   buddyQuery(query, function (error, data) {
     console.log(query)
@@ -115,9 +104,8 @@ function getUserGroups (request, reply) {
  */
 
 function getUnits (request, reply) {
-  var query = 'SELECT ' +
-    'o.id as name,m.id,m.org,m.beskrivelse,o.ObjectType,o.DisplayName,o.Status,o.PostalAddress,o.Street,o.PostalCode,o.City,o.OrganizationNumber ' +
-    "FROM dbMetakatalog.dbo.tblKonverterIDer m, dbMetakatalog.dbo.tblObjects o where m.konverterTil = o.ID AND o.ObjectType = 'Enhet' AND m.org = 'TFK'"
+  var query = require('../lib/sql/getUnits.sql')
+
   buddyQuery(query, function (error, data) {
     reply(error || data)
   })
@@ -125,11 +113,8 @@ function getUnits (request, reply) {
 
 function getUnit (request, reply) {
   var unitId = request.params.unitId
-  var query = 'SELECT ' +
-    'o.id as name,m.id,m.org,m.beskrivelse,o.ObjectType,o.DisplayName,o.Status,o.PostalAddress,o.Street,o.PostalCode,o.City,o.OrganizationNumber ' +
-    "FROM dbMetakatalog.dbo.tblKonverterIDer m, dbMetakatalog.dbo.tblObjects o where m.konverterTil = o.ID AND o.ObjectType = 'Enhet' AND m.org = 'TFK' and m.id = '" +
-    unitId +
-    "'"
+  var query = require('../lib/sql/getUnit.sql')
+  query = query.replace('@unitId', unitId)
 
   buddyQuery(query, function (error, data) {
     reply(error || data)
@@ -138,14 +123,8 @@ function getUnit (request, reply) {
 
 function getUnitGroups (request, reply) {
   var unitId = request.params.unitId
-  var query = 'SELECT mv.ID as groupName, mv.AttributeName as groupType, mv.StringValue as unitName, ki.id as unitId ' +
-   'FROM dbMetakatalog.dbo.tblMultiValue mv, dbMetakatalog.dbo.tblKonverterIDer ki ' +
-   'WHERE mv.StringValue = ki.konverterTil ' +
-   "AND ki.id = '" +
-   unitId +
-   "' " +
-   "AND mv.ID LIKE mv.StringValue  + '%'" +
-   'ORDER BY mv.ID ASC'
+  var query = require('../lib/sql/getUnitGroups.sql')
+  query = query.replace('@unitId', unitId)
 
   buddyQuery(query, function (error, data) {
     reply(error || data)
@@ -160,14 +139,9 @@ function getUnitGroups (request, reply) {
 
 function getGroup (request, reply) {
   var groupId = request.params.groupId
-  var query = 'SELECT mv.ID, mv.AttributeName as groupType, mv.StringValue as unitId, ' +
-    'o.ObjectType as objectType, o.GroupType as groupTypeDesc, o.Description as description ' +
-    'FROM dbMetakatalog.dbo.tblMultiValue mv, dbMetakatalog.dbo.tblObjects o ' +
-    'WHERE mv.ID = o.ID ' +
-    "AND AttributeName = 'Enhet' " +
-    "AND mv.ID = '" +
-    groupId +
-    "'"
+  var query = require('../lib/sql/getGroup.sql')
+  query = query.replace('@groupId', groupId)
+
   buddyQuery(query, function (error, data) {
     reply(error || data)
   })
@@ -175,14 +149,9 @@ function getGroup (request, reply) {
 
 function getGroupMembers (request, reply) {
   var groupId = request.params.groupId
-  var query = 'SELECT mv.ID as groupId, mv.AttributeName as memberType, mv.StringValue as username, ' +
-    'o.Firstname as firstName, o.Midlename as middleName, o.Lastname as lastName, o.SSN as ssn ' +
-    'FROM dbMetakatalog.dbo.tblMultiValue mv, dbMetakatalog.dbo.tblObjects o ' +
-    'WHERE mv.StringValue = o.ID ' +
-    "AND mv.AttributeName = 'Member'" +
-    "AND mv.ID = '" +
-    groupId +
-    "'"
+  var query = require('../lib/sql/getGroupMembers.sql')
+  query = query.replace('@groupId', groupId)
+
   buddyQuery(query, function (error, data) {
     reply(error || data)
   })
@@ -195,24 +164,19 @@ function getGroupMembers (request, reply) {
  */
 
 function getOrganizations (request, reply) {
-  var query = 'SELECT * ' +
-    "FROM dbMetakatalog.dbo.tblObjects where ObjectType = 'Organisasjon'"
+  var query = require('../lib/sql/getOrganizations.sql')
 
   if (request.params.id) {
-    query = 'SELECT * ' +
-      "FROM dbMetakatalog.dbo.tblObjects WHERE ObjectType = 'Organisasjon' AND id = '" + Number(request.params.id) + "'"
+    query = require('../lib/sql/getOrganization.sql')
+    query = query.replace('@orgId', Number(request.params.id))
   }
   buddyQuery(query, function (error, data) {
     reply(error || data)
   })
 }
 
-function schools (request, reply) {
-  var query = 'SELECT ' +
-   'o.id as name,m.id,m.org,m.beskrivelse,o.ObjectType,o.DisplayName,o.Status,o.PostalAddress,o.Street,o.PostalCode,o.City,o.OrganizationNumber ' +
-   "FROM dbMetakatalog.dbo.tblKonverterIDer m, dbMetakatalog.dbo.tblObjects o where m.konverterTil = o.ID AND o.ObjectType = 'Enhet' " +
-   // Filter
-   "AND m.org = 'TFK' AND o.OrganizationNumber LIKE 'NO974568%'"
+function getSchools (request, reply) {
+  var query = require('../lib/sql/getSchools.sql')
 
   buddyQuery(query, function (error, data) {
     reply(error || data)
@@ -241,6 +205,6 @@ module.exports.getGroup = getGroup
 
 module.exports.getGroupMembers = getGroupMembers
 
-module.exports.schools = schools
+module.exports.getSchools = getSchools
 
 module.exports.getPublicResponse = getPublicResponse

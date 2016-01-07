@@ -10,16 +10,6 @@ var config = {
       encrypt: false // Use this if you're on Windows Azure
     }
   },
-  ldap: {
-    url: 'ldap://ldap.forumsys.com:389',
-    bindDn: 'cn=read-only-admin,dc=example,dc=com', // distinguishedName of user who have bind access to ldap
-    bindCredentials: 'password',
-    searchBase: 'dc=example,dc=com',
-    // For OpenLDAP:
-    // searchFilter: '(uid={{username}})'
-    // For Active Directory:
-    searchFilter: '(sAMAccountName={{username}})'
-  },
   SERVER_PORT: process.env.SERVER_PORT || 3000,
   JWT_SECRET: process.env.JWT_SECRET || 'NeverShareYourSecret',
   YAR_SECRET: process.env.JWT_SECRET || 'NeverShareYourSecret'
