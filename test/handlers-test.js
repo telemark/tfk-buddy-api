@@ -27,6 +27,6 @@ tap.ok(handlers.getGroup, 'Handler has method getGroup')
 
 tap.ok(handlers.getGroupMembers, 'Handler has method getGroupMembers')
 
-tap.ok(handlers.schools, 'Handler has method schools')
+tap.ok(handlers.getSchools, 'Handler has method schools')
 
 tap.ok(handlers.getPublicResponse, 'Handler has method getPublicResponse')
