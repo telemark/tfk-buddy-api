@@ -34,6 +34,9 @@ function searchStudents(request, reply) {
     if (err) {
       reply(err)
     } else {
+      if (groups[0] == null) {
+        reply([])
+      }
       studentsInGroups(groups, query2, function (err, result) {
         if (err) {
           reply(err)
