@@ -21,7 +21,7 @@ var routes = [
       description: 'Return students in classes',
       validate: {
         params: {
-          username: Joi.string().min(3).max(10).required(),
+          username: Joi.string().min(3).max(30).required(),
           search: Joi.string().min(1).max(10).required()
         }
       }
