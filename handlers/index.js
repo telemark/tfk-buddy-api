@@ -1,6 +1,7 @@
 'use strict'
 
 var fs = require('fs')
+var studentsInGroups = require('../lib/studentsInGroups')
 
 require.extensions['.sql'] = function (module, filename) {
   module.exports = fs.readFileSync(filename, 'utf8')
@@ -20,6 +21,30 @@ function getPublicResponse (request, reply) {
   }
   reply(message)
 }
+
+function searchStudents(request, reply) {
+  var username = request.params.username
+  var search = request.params.search
+  var query1 = require('../lib/sql/louie1.sql')
+  var query2 = require('../lib/sql/louie2.sql')
+  query1 = query1.replace('@username', username)
+  query2 = query2.replace('@search', search)
+
+  buddyQuery(query1, function (err, groups) {
+    if (err) {
+      reply(err)
+    } else {
+      studentsInGroups(groups, query2, function (err, result) {
+        if (err) {
+          reply(err)
+        } else {
+          reply(result)
+        }
+      })
+    }
+  })
+}
+
 
 /*!
  *
