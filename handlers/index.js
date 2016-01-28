@@ -22,7 +22,7 @@ function getPublicResponse (request, reply) {
   reply(message)
 }
 
-function searchStudents(request, reply) {
+function searchStudents (request, reply) {
   var username = request.params.username
   var search = request.params.search
   var query1 = require('../lib/sql/louie1.sql')
@@ -47,7 +47,6 @@ function searchStudents(request, reply) {
     }
   })
 }
-
 
 /*!
  *
