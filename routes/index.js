@@ -15,6 +15,20 @@ var routes = [
   },
   {
     method: 'GET',
+    path: '/search/{username}/{search}',
+    handler: handlers.searchStudents,
+    config: {
+      description: 'Return students in classes',
+      validate: {
+        params: {
+          username: Joi.string().min(3).max(10).required(),
+          search: Joi.string().min(1).max(10).required()
+        }
+      }
+    }
+  },
+  {
+    method: 'GET',
     path: '/users/{username}/name',
     handler: handlers.getUserName,
     config: {
