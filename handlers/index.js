@@ -233,3 +233,5 @@ module.exports.getGroupMembers = getGroupMembers
 module.exports.getSchools = getSchools
 
 module.exports.getPublicResponse = getPublicResponse
+
+module.exports.searchStudents = searchStudents
