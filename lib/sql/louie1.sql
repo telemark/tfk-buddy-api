@@ -2,12 +2,15 @@
 SELECT
   m.ID as groupId,
   o.Description as description,
-  n.StringValue as unitId
+  n.StringValue as unitId,
+  s.DisplayName as unitName
 FROM
   dbMetakatalog.dbo.tblMultiValue m,
   dbMetakatalog.dbo.tblObjects o
   INNER JOIN
   dbMetakatalog.dbo.tblMultiValue n ON n.ID = o.ID
+  INNER JOIN
+  dbMetakatalog.dbo.tblObjects s ON s.id = n.StringValue
 WHERE
   n.AttributeName = 'Enhet'
   AND
