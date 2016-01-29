@@ -17,19 +17,26 @@ var buddyQuery = require('../lib/buddyQuery')
 
 function getPublicResponse (request, reply) {
   var message = {
-    message: "Hello, I'm your API"
+    message: "I'm talking to a machine"
   }
   reply(message)
 }
 
-function searchStudents (request, reply) {
+/*!
+ *
+ * User
+ *
+ */
+
+function searchStudents(request, reply) {
   var username = request.params.username
   var search = request.params.search
   var query1 = require('../lib/sql/louie1.sql')
   var query2 = require('../lib/sql/louie2.sql')
+  var query3 = require('../lib/sql/louieIsContactTeacher.sql')
   query1 = query1.replace('@username', username)
   query2 = query2.replace('@search', search)
-
+  query3 = query3.replace('@username', username)
   buddyQuery(query1, function (err, groups) {
     if (err) {
       reply(err)
@@ -37,7 +44,7 @@ function searchStudents (request, reply) {
       if (groups[0] == null) {
         reply([])
       }
-      studentsInGroups(groups, query2, function (err, result) {
+      studentsInGroups(groups, query2, query3, function (err, result) {
         if (err) {
           reply(err)
         } else {
@@ -48,11 +55,6 @@ function searchStudents (request, reply) {
   })
 }
 
-/*!
- *
- * User
- *
- */
 
 function getUser (request, reply) {
   var username = request.params.username
