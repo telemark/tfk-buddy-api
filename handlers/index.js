@@ -28,7 +28,7 @@ function getPublicResponse (request, reply) {
  *
  */
 
-function searchStudents(request, reply) {
+function searchStudents (request, reply) {
   var username = request.params.username
   var search = request.params.search
 
@@ -57,7 +57,6 @@ function searchStudents(request, reply) {
     }
   })
 }
-
 
 function getUser (request, reply) {
   var username = request.params.username

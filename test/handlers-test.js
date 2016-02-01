@@ -30,3 +30,5 @@ tap.ok(handlers.getGroupMembers, 'Handler has method getGroupMembers')
 tap.ok(handlers.getSchools, 'Handler has method schools')
 
 tap.ok(handlers.getPublicResponse, 'Handler has method getPublicResponse')
+
+tap.ok(handlers.searchStudents, 'Handler has method searchStudents')
