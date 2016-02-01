@@ -31,20 +31,23 @@ function getPublicResponse (request, reply) {
 function searchStudents(request, reply) {
   var username = request.params.username
   var search = request.params.search
-  var query1 = require('../lib/sql/louie1.sql')
-  var query2 = require('../lib/sql/louie2.sql')
-  var query3 = require('../lib/sql/louieIsContactTeacher.sql')
-  query1 = query1.replace('@username', username)
-  query2 = query2.replace('@search', search)
-  query3 = query3.replace('@username', username)
-  buddyQuery(query1, function (err, groups) {
+
+  var queryTeacherGroups = require('../lib/sql/getTeacherGroups.sql')
+  var queryStudentsInGroup = require('../lib/sql/getStudentsInGroup.sql')
+  var queryIsContactTeacher = require('../lib/sql/isContactTeacher.sql')
+
+  queryTeacherGroups = queryTeacherGroups.replace('@username', username)
+  queryStudentsInGroup = queryStudentsInGroup.replace('@search', search)
+  queryIsContactTeacher = queryIsContactTeacher.replace('@username', username)
+
+  buddyQuery(queryTeacherGroups, function (err, groups) {
     if (err) {
       reply(err)
     } else {
       if (groups[0] == null) {
         reply([])
       }
-      studentsInGroups(groups, query2, query3, function (err, result) {
+      studentsInGroups(groups, queryStudentsInGroup, queryIsContactTeacher, function (err, result) {
         if (err) {
           reply(err)
         } else {
