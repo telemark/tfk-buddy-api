@@ -12,7 +12,7 @@ var config = {
   },
   SERVER_PORT: process.env.SERVER_PORT || 3000,
   JWT_SECRET: process.env.JWT_SECRET || 'NeverShareYourSecret',
-  YAR_SECRET: process.env.JWT_SECRET || 'NeverShareYourSecret'
+  YAR_SECRET: process.env.YAR_SECRET || 'NeverShareYourSecret'
 }
 
 module.exports = config
