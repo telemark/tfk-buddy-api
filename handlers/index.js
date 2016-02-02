@@ -28,6 +28,36 @@ function getPublicResponse (request, reply) {
  *
  */
 
+function getStudents (request, reply) {
+  var username = request.params.username
+  var studentId = request.params.studentId
+
+  var queryTeacherGroups = require('../lib/sql/getTeacherGroups.sql')
+  var queryStudentInGroup = require('../lib/sql/getStudentInGroup.sql')
+  var queryIsContactTeacher = require('../lib/sql/isContactTeacher.sql')
+
+  queryTeacherGroups = queryTeacherGroups.replace('@username', username)
+  queryStudentInGroup = queryStudentInGroup.replace('@studentId', studentId)
+  queryIsContactTeacher = queryIsContactTeacher.replace('@username', username)
+
+  buddyQuery(queryTeacherGroups, function (err, groups) {
+    if (err) {
+      reply(err)
+    } else {
+      if (groups[0] == null) {
+        reply([])
+      }
+      studentsInGroups(groups, queryStudentInGroup, queryIsContactTeacher, function (err, result) {
+        if (err) {
+          reply(err)
+        } else {
+          reply(result)
+        }
+      })
+    }
+  })
+}
+
 function searchStudents (request, reply) {
   var username = request.params.username
   var search = request.params.search
@@ -241,3 +271,5 @@ module.exports.getSchools = getSchools
 module.exports.getPublicResponse = getPublicResponse
 
 module.exports.searchStudents = searchStudents
+
+module.exports.getStudents = getStudents

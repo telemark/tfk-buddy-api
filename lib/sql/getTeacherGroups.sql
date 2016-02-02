@@ -21,6 +21,10 @@ WHERE
   m.AttributeName = 'Owner'
   AND
   o.GroupType in ('Faggruppe', 'Klassegruppe')
+  AND
+  m.ID NOT LIKE '%ATF%'
+  AND
+  m.id NOT LIKE '%ORD%'
 
 --id				description	unitId
 -- SKIVS:1STD/151KRO1004	Kroppsøving	SKIVS
