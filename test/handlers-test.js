@@ -3,7 +3,7 @@
 var tap = require('tap')
 var handlers = require('../handlers')
 
-tap.equal(Object.keys(handlers).length, 14, 'There are 14 different handlers')
+tap.equal(Object.keys(handlers).length, 15, 'There are 15 different handlers')
 
 tap.ok(handlers.getUser, 'Handler has method getUser')
 
@@ -32,3 +32,5 @@ tap.ok(handlers.getSchools, 'Handler has method schools')
 tap.ok(handlers.getPublicResponse, 'Handler has method getPublicResponse')
 
 tap.ok(handlers.searchStudents, 'Handler has method searchStudents')
+
+tap.ok(handlers.getStudents, 'Handler has method getStudents')
