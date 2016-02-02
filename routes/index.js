@@ -36,7 +36,7 @@ var routes = [
       validate: {
         params: {
           username: Joi.string().min(3).max(40).required(),
-          search: Joi.string().min(3).max(40).required()
+          id: Joi.string().min(3).max(40).required()
         }
       }
     }
