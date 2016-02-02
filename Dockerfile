@@ -31,6 +31,7 @@ ENV BUDDY_PASSWORD password
 ENV BUDDY_SERVER hostmain.domain.no
 ENV BUDDY_DATABASE dbMetakatalog
 ENV JWT_SECRET NeverShareYourSecret
+ENV YAR_SECRET NeverShareYourSecret
 
 # Expose 3000
 EXPOSE 3000
