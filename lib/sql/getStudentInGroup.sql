@@ -15,4 +15,4 @@ WHERE
   AND
   m.AttributeName = 'Member'
   AND
-  o.ID LIKE '@studentId'
+  m.StringValue = '@studentId'

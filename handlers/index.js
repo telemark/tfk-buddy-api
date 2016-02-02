@@ -30,7 +30,7 @@ function getPublicResponse (request, reply) {
 
 function getStudents (request, reply) {
   var username = request.params.username
-  var studentId = request.params.studentId
+  var studentId = request.params.id
 
   var queryTeacherGroups = require('../lib/sql/getTeacherGroups.sql')
   var queryStudentInGroup = require('../lib/sql/getStudentInGroup.sql')
