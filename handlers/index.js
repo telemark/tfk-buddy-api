@@ -17,7 +17,7 @@ var buddyQuery = require('../lib/buddyQuery')
 
 function getPublicResponse (request, reply) {
   var message = {
-    message: "(Nothing but) Flowers"
+    message: '(Nothing but) Flowers'
   }
   reply(message)
 }
