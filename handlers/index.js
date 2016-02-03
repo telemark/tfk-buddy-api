@@ -42,7 +42,7 @@ function getStudents (request, reply) {
     isContactTeacher: queryIsContactTeacher.replace('@username', username)
   }
 
-  buddyQuery(queryTeacherGroups, function (err, groups) {
+  buddyQuery(query.teacherGroups, function (err, groups) {
     if (err) {
       reply(err)
     } else {

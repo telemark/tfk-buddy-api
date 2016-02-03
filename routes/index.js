@@ -15,7 +15,7 @@ var routes = [
   },
   {
     method: 'GET',
-    path: '/search/{username}/{search}',
+    path: '/users/{username}/search/{search}',
     handler: handlers.searchStudents,
     config: {
       description: 'Return students in classes',
@@ -29,7 +29,7 @@ var routes = [
   },
   {
     method: 'GET',
-    path: '/username/{username}/students/{id}',
+    path: '/users/{username}/students/{id}',
     handler: handlers.getStudents,
     config: {
       description: 'Return student groups',
