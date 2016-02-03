@@ -38,7 +38,7 @@ function getStudents (request, reply) {
 
   var query = {
     teacherGroups: queryTeacherGroups.replace('@username', username),
-    studentsInGroup: queryStudentInGroup.replace('@studentId', search),
+    studentsInGroup: queryStudentInGroup.replace('@studentId', studentId),
     isContactTeacher: queryIsContactTeacher.replace('@username', username)
   }
 
