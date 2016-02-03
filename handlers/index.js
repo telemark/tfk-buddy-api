@@ -36,9 +36,11 @@ function getStudents (request, reply) {
   var queryStudentInGroup = require('../lib/sql/getStudentInGroup.sql')
   var queryIsContactTeacher = require('../lib/sql/isContactTeacher.sql')
 
-  queryTeacherGroups = queryTeacherGroups.replace('@username', username)
-  queryStudentInGroup = queryStudentInGroup.replace('@studentId', studentId)
-  queryIsContactTeacher = queryIsContactTeacher.replace('@username', username)
+  var query = {
+    teacherGroups: queryTeacherGroups.replace('@username', username),
+    studentsInGroup: queryStudentInGroup.replace('@studentId', search),
+    isContactTeacher: queryIsContactTeacher.replace('@username', username)
+  }
 
   buddyQuery(queryTeacherGroups, function (err, groups) {
     if (err) {
@@ -47,7 +49,7 @@ function getStudents (request, reply) {
       if (groups[0] == null) {
         reply([])
       }
-      studentsInGroups(groups, queryStudentInGroup, queryIsContactTeacher, function (err, result) {
+      studentsInGroups(groups, query, function (err, result) {
         if (err) {
           reply(err)
         } else {
