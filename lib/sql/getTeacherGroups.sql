@@ -3,7 +3,8 @@ SELECT
   m.ID as groupId,
   o.Description as description,
   n.StringValue as unitId,
-  s.DisplayName as unitName
+  s.DisplayName as unitName,
+  s.OrganizationNumber as organizationNumber
 FROM
   dbMetakatalog.dbo.tblMultiValue m,
   dbMetakatalog.dbo.tblObjects o
