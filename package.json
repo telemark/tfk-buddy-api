@@ -41,6 +41,6 @@
   "devDependencies": {
     "coveralls": "^3.0.0",
     "standard": "^10.0.0-beta.0",
-    "tap": "^11.0.0"
+    "tap": "^11.0.1"
   }
 }
