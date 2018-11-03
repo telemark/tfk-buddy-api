@@ -36,7 +36,7 @@
     "lout": "10.0.3",
     "mssql": "4.2.2",
     "vision": "4.1.1",
-    "yar": "9.0.1"
+    "yar": "9.1.0"
   },
   "devDependencies": {
     "coveralls": "3.0.2",
